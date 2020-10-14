@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import ImageComponent from "./imageComponent"; // Importing image component
 import LightBox from "./lightBox"; // Importing simple lightBox component
 import Pagination from "./pagination"; // Importing simple pagination component
+import { withRouter } from "react-router";
 
 /**
  * Control entire gallery component
@@ -10,14 +11,15 @@ import Pagination from "./pagination"; // Importing simple pagination component
 class Gallery extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { data: null, photo: null }; // initializing data and photo with null
+		this.state = { currentPage: 1, data: null, photo: null }; // initializing data and photo with null
 	}
 
 	/**
 	 * Getting images from API and setting state data
 	 * @param {number} pageNumber
 	 */
-	getImages(pageNumber = 1) {
+	getImages = (pageNumber = 1) => {
+		console.log(this.props);
 		let search = window.location.search;
 		let params = new URLSearchParams(search);
 		let consumer_key = params.get("consumer_key");
@@ -33,8 +35,30 @@ class Gallery extends Component {
 	}
 
 	componentDidMount() {
+		let page = 1;
+
+		if ( this.props.match.params.pageId ) {
+			page = this.props.match.params.pageId;
+			this.setState( {currentPage: page} );
+		this.getImages( page );
+
+		}
 		// Initialize data from API after the component mount
-		this.getImages();
+		this.getImages( page );
+	}
+
+	componentDidUpdate( prevProps, prevState ) {
+		if(prevProps === undefined) {
+			return false
+		}
+
+		/**
+		 * new Project in town ?
+		 */
+		if ( parseInt( this.state.currentPage ) !== parseInt( this.props.match.params.pageId ) ) {
+			this.getImages( this.props.match.params.pageId );
+			this.setState( {currentPage: this.props.match.params.pageId} );
+		}
 	}
 
 	/**
@@ -116,4 +140,4 @@ class Gallery extends Component {
 	}
 }
 
-export default Gallery;
+export default withRouter( Gallery );

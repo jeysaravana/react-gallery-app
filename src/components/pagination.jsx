@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link, withRouter } from 'react-router-dom';
+
 
 class Pagination extends Component {
 	constructor(props) {
@@ -71,27 +73,53 @@ class Pagination extends Component {
 		return pages;
 	}
 
+	getHtmlLink = ( key, page, currentPage ) => {
+		return (
+			<li
+				onClick={e => this.props.onPageChange(page, currentPage, e)}
+				className={` page-item ${
+					page === currentPage ? "active disabled" : ""
+				}`}
+				key={key}
+			>
+				<span className="page-link">{page}</span>
+			</li>
+		);
+	}
+
+	getLinkFormat = ( key, page, pageString, queryString, linkClassAttr = '' ) => {
+		return <li className={`page-item ${linkClassAttr}`}>
+					<Link key={key} className="page-link" to={`/page/${page}${queryString}`}>{pageString}</Link>
+				</li>
+	}
+
 	render() {
 		// destructuring props
 		const { currentPage, totalItems } = this.props;
 		const pages = this.fetchPages(currentPage, totalItems);
 
+		console.log( this.props);
+		console.log( this.props.match.params.pageId );
+		console.log( this.props.location.search );
 		return (
 			<React.Fragment>
 				<nav aria-label="Page navigation">
 					<ul className="pagination">
 						{pages.map((page, key) => {
-							return (
-								<li
-									onClick={e => this.props.onPageChange(page, currentPage, e)}
-									className={` page-item ${
-										page === currentPage ? "active disabled" : ""
-									}`}
-									key={key}
-								>
-									<span className="page-link">{page}</span>
-								</li>
-							);
+							let linkClassAttr = '';
+							let pageString = page;
+							if ( page === parseInt( this.props.match.params.pageId ) ) {
+								linkClassAttr = 'active disabled';
+							}
+
+							if ( pageString === 'Next' ) {
+								page = (parseInt( this.props.match.params.pageId ) + 1)
+							}
+							if ( pageString === 'Previous' ) {
+								page = (parseInt( this.props.match.params.pageId ) - 1)
+							}
+							// return this.getHtmlLink( key, page, pageString, this.props.location.search, linkClassAttr );
+							return this.getLinkFormat( key, page, pageString, this.props.location.search, linkClassAttr );
 						})}
 					</ul>
 				</nav>
@@ -100,4 +128,4 @@ class Pagination extends Component {
 	}
 }
 
-export default Pagination;
+export default withRouter( Pagination );
