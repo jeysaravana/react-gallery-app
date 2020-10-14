@@ -98,7 +98,8 @@ class Gallery extends Component {
 		<div align="center">
 			{data && (
 				<Pagination
-					currentPage={data.current_page}
+					currentPage={parseInt( data.current_page )}
+					currentPage={parseInt( this.state.currentPage}
 					totalPages={data.total_pages}
 					totalItems={data.total_items}
 					onPageChange={this.handlePageChange}

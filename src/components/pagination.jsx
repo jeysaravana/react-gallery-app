@@ -37,7 +37,7 @@ class Pagination extends Component {
 	 *
 	 * @returns {Array} pages
 	 */
-	fetchPages(currentPage, totalItems, pageLimit = 20) {
+	fetchPages(currentPage, totalItems, pageLimit = 30) {
 		let numOfPageItems = 10;
 		let pages = [];
 		let totalPages = Math.ceil(totalItems / pageLimit);
@@ -48,7 +48,7 @@ class Pagination extends Component {
 		}
 
 		// Print the page number for 1st 10 pages untill current page reaches in the middle
-		if (currentPage <= numOfPageItems - 4 && (numOfPageItems >= totalPages)) {
+		if (currentPage <= (numOfPageItems - 4) && (numOfPageItems <= totalPages)) {
 			let end = totalPages > numOfPageItems ? numOfPageItems : totalPages;
 			pages = [...pages, ...this.pageRange(1, end)];
 		}
@@ -97,10 +97,6 @@ class Pagination extends Component {
 		// destructuring props
 		const { currentPage, totalItems } = this.props;
 		const pages = this.fetchPages(currentPage, totalItems);
-
-		console.log( this.props);
-		console.log( this.props.match.params.pageId );
-		console.log( this.props.location.search );
 		return (
 			<React.Fragment>
 				<nav aria-label="Page navigation">
