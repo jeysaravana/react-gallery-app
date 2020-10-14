@@ -19,11 +19,20 @@ class Gallery extends Component {
 	 * @param {number} pageNumber
 	 */
 	getImages = (pageNumber = 1) => {
-		console.log(this.props);
+
 		let search = window.location.search;
 		let params = new URLSearchParams(search);
 		let consumer_key = params.get("consumer_key");
-		console.log(consumer_key);
+
+
+		// 'popular' — Return photos in Popular. Default sort: rating.
+		// 'highest_rated' — Return photos that have been in Popular. Default sort: highest_rating.
+		// 'upcoming' — Return photos in Upcoming. Default sort: time when Upcoming was reached.
+		// 'editors' — Return photos in Editors' Choice. Default sort: time when selected by an editor.
+		// 'fresh_today' — Return photos in Fresh Today. Default sort: time when reached fresh.
+		// 'fresh_yesterday' — Return photos in Fresh Yesterday. Default sort: same as 'fresh_today'.
+		// 'fresh_week' — Return photos in Fresh This Week. Default sort: same as 'fresh_today'.
+
 		// let apiUrl = `https://api.500px.com/v1/photos?feature=upcoming&image_size[]=20&image_size[]=2048&page=${pageNumber}&consumer_key=${consumer_key}`;
 		let apiUrl = `https://api.500px.com/v1/photos?feature=popular&image_size[]=20&image_size[]=2048&page=${pageNumber}&consumer_key=${consumer_key}`;
 		fetch(apiUrl)
@@ -55,8 +64,8 @@ class Gallery extends Component {
 		/**
 		 * new Project in town ?
 		 */
-		if ( parseInt( this.state.currentPage ) !== parseInt( this.props.match.params.pageId ) ) {
-			this.getImages( this.props.match.params.pageId );
+		if ( parseInt( this.props.match.params.pageId ) && parseInt( this.state.currentPage ) !== parseInt( this.props.match.params.pageId ) ) {
+			this.getImages( parseInt( this.props.match.params.pageId ) );
 			this.setState( {currentPage: this.props.match.params.pageId} );
 		}
 	}

@@ -88,7 +88,7 @@ class Pagination extends Component {
 	}
 
 	getLinkFormat = ( key, page, pageString, queryString, linkClassAttr = '' ) => {
-		return <li className={`page-item ${linkClassAttr}`}>
+		return <li key={key} className={`page-item ${linkClassAttr}`}>
 					<Link key={key} className="page-link" to={`/page/${page}${queryString}`}>{pageString}</Link>
 				</li>
 	}
