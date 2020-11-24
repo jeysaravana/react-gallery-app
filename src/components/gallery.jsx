@@ -33,10 +33,10 @@ class Gallery extends Component {
 		// 'fresh_yesterday' — Return photos in Fresh Yesterday. Default sort: same as 'fresh_today'.
 		// 'fresh_week' — Return photos in Fresh This Week. Default sort: same as 'fresh_today'.
 
-		// let apiUrl = `https://api.500px.com/v1/photos?feature=upcoming&image_size[]=20&image_size[]=2048&page=${pageNumber}&consumer_key=${consumer_key}`;
-		let apiUrl = window.btoa(`https://api.500px.com/v1/photos?feature=popular&image_size[]=20&image_size[]=2048&page=${pageNumber}&consumer_key=${consumer_key}` );
+		let apiUrl = `https://api.500px.com/v1/photos?feature=upcoming&image_size[]=20&image_size[]=2048&page=${pageNumber}&consumer_key=${consumer_key}`;
+		// let apiUrl = window.btoa(`https://api.500px.com/v1/photos?feature=popular&image_size[]=20&image_size[]=2048&page=${pageNumber}&consumer_key=${consumer_key}` );
 
-		apiUrl = `https://tamilfire.com/proxy.php?url=${apiUrl}`;
+		// apiUrl = `./proxy.php?url=${apiUrl}`;
 		fetch(apiUrl)
 			.then(response => response.json())
 			.then(data => {
