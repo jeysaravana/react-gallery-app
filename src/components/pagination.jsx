@@ -89,6 +89,7 @@ class Pagination extends Component {
 
 	getLinkFormat = ( key, page, pageString, queryString, linkClassAttr = '' ) => {
 		let urlPrefix = window.location.pathname.split('/page/')[0].replace(/\/$/, '');
+		urlPrefix = window.location.pathname.split('/gallery/')[0].replace(/\/$/, '');
 		return <li key={key} className={`page-item ${linkClassAttr}`}>
 					<Link key={key} className="page-link" to={`${urlPrefix}/page/${page}${queryString}`}>{pageString}</Link>
 				</li>

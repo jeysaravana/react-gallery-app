@@ -8,7 +8,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 // Adding gallery component to root div
 ReactDOM.render(
-	<BrowserRouter>
+	<BrowserRouter basename={'gallery'}>
 		<Switch>
 			<Route path="/page/:pageId" component={Gallery}/>
 			<Route path="/" component={Gallery}/>
